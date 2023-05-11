@@ -15,7 +15,7 @@ impl<T> Scope<T> {
 }
 
 impl<T> Deref for Scope<T> {
-    type Target = Mc<Option<T>>;
+    type Target = Option<T>;
 
     fn deref(&self) -> &Self::Target {
         &self.0
