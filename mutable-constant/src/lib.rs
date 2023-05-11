@@ -1,11 +1,12 @@
-use std::pin::Pin;
-
-
 pub struct Mc<T>(*mut T);
 
 impl<T> Mc<T> {
     pub fn new(t: T) -> Mc<T> {
         Mc(Box::into_raw(Box::new(t)))
+    }
+
+    pub unsafe fn as_defiant_mut(&self) -> &mut T {
+        &mut *self.0
     }
 }
 
