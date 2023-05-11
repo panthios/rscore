@@ -28,6 +28,8 @@
 
 #![warn(missing_docs)]
 
+mod impls;
+
 /// A smart pointer that allows mutation on immutable values.
 /// 
 /// This uses a `*mut T` internally, so most internal operations
@@ -91,47 +93,6 @@ impl<T> AsRef<T> for Mc<T> {
 
 impl<T> AsMut<T> for Mc<T> {
     fn as_mut(&mut self) -> &mut T {
-        unsafe { &mut *self.0 }
-    }
-}
-
-impl<T> std::fmt::Debug for Mc<T>
-where
-    T: std::fmt::Debug
-{
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        unsafe { &*self.0 }.fmt(f)
-    }
-}
-
-impl<T> std::fmt::Display for Mc<T>
-where
-    T: std::fmt::Display
-{
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        unsafe { &*self.0 }.fmt(f)
-    }
-}
-
-impl<T> Clone for Mc<T>
-where
-    T: Clone
-{
-    fn clone(&self) -> Self {
-        Mc::new(unsafe { &*self.0 }.clone())
-    }
-}
-
-impl<T> std::ops::Deref for Mc<T> {
-    type Target = T;
-
-    fn deref(&self) -> &Self::Target {
-        unsafe { &*self.0 }
-    }
-}
-
-impl<T> std::ops::DerefMut for Mc<T> {
-    fn deref_mut(&mut self) -> &mut Self::Target {
         unsafe { &mut *self.0 }
     }
 }
