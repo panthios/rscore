@@ -1,39 +1,29 @@
+use std::ops::{Deref, DerefMut};
+use mutable_constant::Mc;
 
 
-pub enum Scope<T> {
-    Present(T),
-    Absent
-}
+pub struct Scope<T>(Mc<Option<T>>);
 
 impl<T> Scope<T> {
     pub fn new(t: T) -> Scope<T> {
-        Scope::Present(t)
+        Scope(Mc::new(Some(t)))
+    }
+
+    pub unsafe fn delete(&self) {
+        self.0.as_defiant_mut().take();
     }
 }
 
-/****************************************
-* General impls
-****************************************/
-impl<T> std::fmt::Debug for Scope<T>
-where
-    T: std::fmt::Debug
-{
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        match self {
-            Scope::Present(t) => write!(f, "{:?}", t),
-            Scope::Absent => write!(f, "?!")
-        }
+impl<T> Deref for Scope<T> {
+    type Target = Mc<Option<T>>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
 
-impl<T> std::fmt::Display for Scope<T>
-where
-    T: std::fmt::Display
-{
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        match self {
-            Scope::Present(t) => write!(f, "{}", t),
-            Scope::Absent => write!(f, "?!")
-        }
+impl<T> DerefMut for Scope<T> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
     }
 }
