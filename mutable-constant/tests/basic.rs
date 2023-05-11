@@ -5,16 +5,16 @@ use mutable_constant::Mc;
 #[test]
 fn constant_access() {
   let mc = Mc::new(42);
-  assert_eq!(*mc.as_ref(), 42);
+  assert_eq!(*mc, 42);
 }
 
 #[test]
 fn mutable_access() {
   let mut mc = Mc::new(42);
 
-  *mc.as_mut() = 43;
+  *mc = 43;
 
-  assert_eq!(*mc.as_ref(), 43);
+  assert_eq!(*mc, 43);
 }
 
 #[test]
