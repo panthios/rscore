@@ -1,5 +1,12 @@
 [package]
 name = "mutable-constant"
+description = "Mutable access to a constant value"
+homepage = "https://github.com/panthios/rscore/tree/master/mutable-constant"
+repository = "https://github.com/panthios/rscore"
+documentation = "https://docs.rs/mutable-constant"
+readme = "README.md"
+keywords = ["constant", "mutable", "value"]
+license = "MIT OR Apache-2.0"
 version = "0.0.1"
 edition = "2021"
 
