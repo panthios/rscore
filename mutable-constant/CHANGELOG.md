@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `Add` implementation and friends
   - `Eq` implementation and friends
   - `Ord` implementation and friends
+  - `Hash` implementation
 
 ## [0.0.1] - 11-05-2023
 

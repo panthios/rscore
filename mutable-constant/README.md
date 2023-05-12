@@ -2,7 +2,7 @@
 
 This crate provides a smart pointer that allows mutation even when the pointer is immutable.
 
-This crate is very new, and is not at a stable version yet. It is not recommended for production use.
+This crate is very new. While it is unlikely to drastically change, it is not yet ready for production use.
 
 ## Why would you want this?
 
