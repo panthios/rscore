@@ -1,7 +1,14 @@
 [package]
 name = "inscope"
+description = "Track and modify the scope of a variable"
+homepage = "https://github.com/panthios/rscore/tree/master/inscope"
+repository = "https://github.com/panthios/rscore"
+documentation = "https://docs.rs/inscope"
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+keywords = ["scope", "variable", "lifetime"]
 version = "0.0.1"
 edition = "2021"
 
 [dependencies]
-mutable-constant = "0.0.1"
+mutable-constant = "0.1.0"
