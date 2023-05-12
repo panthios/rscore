@@ -1,5 +1,7 @@
 use async_trait::async_trait;
 
+mod impls;
+
 
 #[async_trait]
 pub trait Moment: Clone + Send + Sync {
@@ -30,19 +32,3 @@ literal_moments![
     bool,
     char
 ];
-
-#[async_trait]
-impl<T> Moment for Option<T>
-where
-    T: Moment,
-{
-    type Output = Option<T::Output>;
-
-    async fn resolve(&self) -> Self::Output {
-        if let Some(value) = self {
-            Some(value.resolve().await)
-        } else {
-            None
-        }
-    }
-}
