@@ -1,5 +1,6 @@
 [workspace]
 members = [
   "inscope",
-  "mutable-constant"
+  "mutable-constant",
+  "moment-node"
 ]
