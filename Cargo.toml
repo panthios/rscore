@@ -2,5 +2,6 @@
 members = [
   "inscope",
   "mutable-constant",
-  "moment-node"
+  "moment-node",
+  "data-relations"
 ]
