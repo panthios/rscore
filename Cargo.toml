@@ -3,5 +3,6 @@ members = [
   "inscope",
   "mutable-constant",
   "moment-node",
-  "data-relations"
+  "data-relations",
+  "memory-schema"
 ]
