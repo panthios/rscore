@@ -4,5 +4,6 @@ members = [
   "mutable-constant",
   "moment-node",
   "data-relations",
-  "memory-schema"
+  "memory-schema",
+  "poll-persist"
 ]
