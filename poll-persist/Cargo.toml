@@ -1,5 +1,12 @@
 [package]
 name = "poll-persist"
+description = "Poll a future multiple times"
+homepage = "https://github.com/panthios/rscore/tree/master/poll-persist"
+repository = "https://github.com/panthios/rscore"
+documentation = "https://docs.rs/poll-persist"
+readme = "README.md"
+keywords = ["poll", "future", "async", "await"]
+license = "MIT OR Apache-2.0"
 version = "0.0.1"
 edition = "2021"
 
