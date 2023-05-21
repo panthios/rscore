@@ -11,6 +11,8 @@ version = "0.0.1"
 edition = "2021"
 
 [dependencies]
+pin-project = "1.1.0"
+mutable-constant = "0.1.0"
 
 [dev-dependencies]
 tokio = { version = "1.28.1", features = ["test-util", "macros", "time"] }

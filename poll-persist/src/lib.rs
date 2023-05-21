@@ -9,7 +9,13 @@
 //! 
 //! [`Future`]: https://doc.rust-lang.org/std/future/trait.Future.html
 
-use std::{future::Future, pin::Pin};
+use std::{
+    future::Future,
+    pin::Pin,
+    sync::Arc,
+    task::{Context, Poll}
+};
+use mutable_constant::Mc;
 
 
 /// A persistent future that can be polled multiple times.
@@ -43,6 +49,74 @@ impl<T: Future> PollPersist<T> {
                 }
             },
             PollPersist::Ready(output) => output
+        }
+    }
+}
+
+/// A clone-able future that waits for resolution.
+/// 
+/// This allows multiple threads to await the same future
+/// without cloning it. Cloning this future will not clone
+/// the underlying future, it will simply clone the handle
+/// to it.
+#[pin_project::pin_project]
+pub struct PollHook<T: Future>
+where
+    T::Output: Clone
+{
+    #[pin]
+    future: Arc<Mc<PollPersist<T>>>
+}
+
+impl<T: Future> PollHook<T>
+where
+    T::Output: Clone
+{
+    /// Creates a new `PollHook` from a future.
+    /// 
+    /// This will wrap the future in an `Arc` so that it
+    /// can be cloned.
+    pub fn new(future: T) -> Self {
+        PollHook {
+            future: Arc::new(Mc::new(PollPersist::new(future)))
+        }
+    }
+
+    /// Resolves the future.
+    /// 
+    /// # Safety
+    /// 
+    /// This function is unsafe due to its use of `as_defiant_mut`. It
+    /// is safe to call this function if you are sure that the future
+    /// is not being resolved from another thread.
+    pub async unsafe fn resolve(&mut self) -> &T::Output {
+        self.future.as_ref().as_defiant_mut().resolve().await
+    }
+}
+
+impl<T: Future> Future for PollHook<T>
+where
+    T::Output: Clone
+{
+    type Output = T::Output;
+
+    fn poll(self: Pin<&mut Self>, _cx: &mut Context<'_>) -> Poll<Self::Output> {
+        let future = self.project().future.clone();
+
+        match future.as_ref().as_ref() {
+            PollPersist::Pending(_) => Poll::Pending,
+            PollPersist::Ready(output) => Poll::Ready(output.clone())
+        }
+    }
+}
+
+impl<T: Future> Clone for PollHook<T>
+where
+    T::Output: Clone
+{
+    fn clone(&self) -> Self {
+        PollHook {
+            future: self.future.clone()
         }
     }
 }
